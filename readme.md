@@ -1,13 +1,9 @@
 # Tonca - The Starter Project
 Tonca is a system using many technologies and ready to development.
 
-  - Wordpress Blank Theme
-  - Boostrap
-  - Isotope
-
 ----
 ### Version
-1.0
+1.1
 
 ----
 ### Requirement
