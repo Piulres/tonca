@@ -1,0 +1,5 @@
+*.log
+sftp-config.json
+wordpress/wp-config.php
+wordpress/wp-content/uploads/
+wordpress/.htaccess

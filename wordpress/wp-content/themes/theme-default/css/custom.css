@@ -1,0 +1,47 @@
+* { box-sizing: border-box; }
+
+body { font-family: sans-serif; }
+
+/* ---- isotope-grid ---- */
+
+.isotope-grid {
+
+  margin: 0 auto; /* centered */
+
+}
+
+/* clear fix */
+
+.isotope-grid:after {
+
+  content: '';
+
+  display: block;
+
+  clear: both;
+
+}
+
+/* isotope-grid-item */
+
+.isotope-grid-item {
+
+  float: left;
+
+  height: 200px;
+
+  border: 2px solid #000;
+
+  opacity: 0.8;
+
+}
+
+.isotope-grid-item.red { background: red; }
+
+.isotope-grid-item.blue { background: blue; }
+
+.isotope-grid-item.yellow { background: yellow; }
+
+.isotope-grid-item.tall { height: 100px; } 
+
+.isotope-grid-item.big { height: 400px; }
