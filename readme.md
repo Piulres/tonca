@@ -18,10 +18,6 @@ Tonca uses a number of open source projects to work properly:
 * [Isotope]
 * [Wordpress]
 
-----
-### License
-MIT
-
    [jQuery]: <http://jquery.com/>
    [Bootstrap]: <http://getbootstrap.com/>
    [Isotope]: <http://isotope.metafizzy.co/>
