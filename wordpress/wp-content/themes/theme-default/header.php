@@ -48,9 +48,10 @@
 					<li><a href="/tonca/wordpress/">Home</a></li>
 					<li><a href="/tonca/wordpress/page-1">Page #1</a></li>
 					<li><a href="/tonca/wordpress/page-2">Page #2</a></li>
+					<li><a href="/tonca/wordpress/page-3">Page #3</a></li>
 				</ul>
 				
-				<?php if ( is_page_template( 'page-default-1.php' ) ) { ?>
+				<?php if ( is_page( 'page-1' ) ) { ?>
 
 				<ul class="nav navbar-nav navbar-right filters">
 					
