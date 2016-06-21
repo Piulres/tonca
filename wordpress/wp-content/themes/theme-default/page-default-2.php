@@ -1,7 +1,5 @@
 <?php /* Template Name: Page Default #2 */ ?>
 
-
-
 <?php get_header(); ?>
 
 <div id="page-2" class="container">	
@@ -76,7 +74,7 @@
 
 							<!-- The very first "if" tested to see if there were any Posts to -->
 							<!-- display.  This "else" part tells what do if there weren't any. -->
-							<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+							<p><?php _e( 'Sorry, strange things happen.' ); ?></p>
 
 							<!-- REALLY stop The Loop. -->
 						<?php endif; ?>

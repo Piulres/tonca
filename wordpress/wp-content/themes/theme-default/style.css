@@ -1,16 +1,31 @@
-/*
-Theme Name: Theme Default
-Theme URI: https://github.com/Piulres/tonca
-Description: Default Theme with Isotope, Boostrap and a Blank Wordpress
-Author: Piulres
-Author URI: http://renzn.zz.mu
-Text Domain: Theme Default
-Version: 1.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-This theme, like WordPress, is licensed under the GPL.
-Use it to make something cool, have fun, and share what you've learned with others.
-*/
-
+/*
+
+Theme Name: Theme Default
+
+Theme URI: https://github.com/Piulres/tonca
+
+Description: Tonca is a wordpress system using many technologies and ready to development.
+
+Author: Piulres
+
+Author URI: http://renzn.zz.mu
+
+Text Domain: Theme Default
+
+Version: 1.0
+
+License: GNU General Public License v2 or later
+
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+This theme, like WordPress, is licensed under the GPL.
+
+Use it to make something cool, have fun, and share what you've learned with others.
+
+*/
+
 /* * { margin: 0; padding: 0; border: 0; } */
+
+nav { margin-bottom: 0!important; }
+
+header { border-bottom: 5px #333; border-bottom-style: dashed; padding-bottom: 20px; }

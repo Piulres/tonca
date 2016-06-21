@@ -55,7 +55,7 @@
 				<ul class="nav navbar-nav navbar-right filters">
 					
 					<li class="dropdown">
-					  <a href="#" class="dropdown-toggle drop-color" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><b>Filters - Colors </b><span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle drop-color" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><b>Filters - Colors </b><span class="caret"></span></a>
 						<ul class="button-group dropdown-menu" data-filter-group="color">
 							<li><a href="#" class="button" data-filter=".red">Filter Red</a></li>
 							<li><a href="#" class="button" data-filter=".blue">Filter Blue</a></li>
@@ -67,7 +67,7 @@
 
 				</ul>
 
-				<?php } else { /* page-default.php is not used */ } ?>
+				<?php } else { /* page-default-1.php is not used */ } ?>
 
 			</div><!-- /.navbar-collapse -->
 
