@@ -20,7 +20,7 @@ Tonca uses a number of open source projects to work properly:
 
 ----
 ### Demo
-renan.zz.mu/tonca/wordpress/
+http://renan.zz.mu/tonca/wordpress/
 
 
    [jQuery]: <http://jquery.com/>
