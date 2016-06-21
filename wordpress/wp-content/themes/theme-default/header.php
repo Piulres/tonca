@@ -26,7 +26,7 @@
 
 </head>
 
-<body <?php body_class(); ?>>	
+<body <?php body_class(); ?>>
 
 	<nav class="navbar navbar-default">
 
@@ -47,22 +47,23 @@
 				<ul class="nav navbar-nav">
 					<li><a href="/tonca/wordpress/">Home</a></li>
 					<li><a href="/tonca/wordpress/page-1">Page #1</a></li>
+					<li><a href="/tonca/wordpress/page-2">Page #2</a></li>
 				</ul>
 				
-				<?php if ( is_page_template( 'page-default.php' ) ) { ?>						    
+				<?php if ( is_page_template( 'page-default-1.php' ) ) { ?>
 
 				<ul class="nav navbar-nav navbar-right filters">
 					
 					<li class="dropdown">
 					  <a href="#" class="dropdown-toggle drop-color" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><b>Filters - Colors </b><span class="caret"></span></a>
-					  <ul class="button-group dropdown-menu" data-filter-group="color">
-					    <li><a href="#" class="button" data-filter=".red">Filter Red</a></li>
-					    <li><a href="#" class="button" data-filter=".blue">Filter Blue</a></li>
-					    <li><a href="#" class="button" data-filter=".yellow">Filter Yellow</a></li>
-					    <li role="separator" class="divider"></li>
-					    <li><a href="#" class="button is-checked" data-filter="">All</a></li>
-					  </ul>
-					</li>		
+						<ul class="button-group dropdown-menu" data-filter-group="color">
+							<li><a href="#" class="button" data-filter=".red">Filter Red</a></li>
+							<li><a href="#" class="button" data-filter=".blue">Filter Blue</a></li>
+							<li><a href="#" class="button" data-filter=".yellow">Filter Yellow</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#" class="button is-checked" data-filter="">All</a></li>
+						</ul>
+					</li>
 
 				</ul>
 
