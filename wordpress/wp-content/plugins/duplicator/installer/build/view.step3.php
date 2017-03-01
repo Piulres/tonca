@@ -1,8 +1,7 @@
 <?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
@@ -32,7 +31,7 @@ VIEW: STEP 3- INPUT -->
 		Step 3: Test Site
 	</div><br />
 	
-	<div class="title-header">
+	<div class="hdr-sub">
 		<div class="s3-final-title">FINAL STEPS!</div>
 	</div>
 		
@@ -53,9 +52,9 @@ VIEW: STEP 3- INPUT -->
 			<td><a class="s3-final-btns" href="javascript:void(0)" onclick="$('#dup-step3-install-report').toggle(400)">Show Report</a></td>
 			<td>
 				<i id="dup-step3-install-report-count">
-					<span data-bind="with: status.step1">Deploy Errors: (<span data-bind="text: query_errs"></span>)</span> &nbsp;
-					<span data-bind="with: status.step2">Update Notices: (<span data-bind="text: err_all"></span>)</span> &nbsp; &nbsp;
-					<span data-bind="with: status.step2" style="color:#888"><b>Warnings:</b> (<span data-bind="text: warn_all"></span>)</span>
+					<span data-bind="with: status.step1">Deploy Results: (<span data-bind="text: query_errs"></span>)</span> &nbsp;
+					<span data-bind="with: status.step2">Update Results: (<span data-bind="text: err_all"></span>)</span> &nbsp; &nbsp;
+					<span data-bind="with: status.step2" style="color:#888"><b>General Notices:</b> (<span data-bind="text: warn_all"></span>)</span>
 				</i>
 			</td>
 		</tr>			
@@ -64,8 +63,8 @@ VIEW: STEP 3- INPUT -->
 	<div class="s3-btns-msg">Click buttons above to complete process</div>
 	
 	<div class="s3-go-back">
-		<i style='font-size:11px'>To re-install <a href="javascript:history.go(-2)">start over at step 1</a>.</i><br/>
-		<i style="font-size:11px;">The .htaccess file was reset.  Resave plugins that write to this file.</i>
+		<i>To re-install <a href="javascript:history.go(-2)">start over at step 1</a>.</i><br/>
+		<i>The .htaccess file was reset.  Resave plugins that write to this file.</i>
 	</div>
 
 
@@ -101,7 +100,7 @@ VIEW: STEP 3- INPUT -->
 		</table>
 		
 		<table class='s3-report-errs' style="width:100%; border-top:none">
-			<tr><th colspan="4">Errors &amp; Warnings <br/> <i style="font-size:10px; font-weight:normal">(click links below to view details)</i></th></tr>
+			<tr><th colspan="4">Report Details <br/> <i style="font-size:10px; font-weight:normal">(click links below to view details)</i></th></tr>
 			<tr>
 				<td data-bind="with: status.step1">
 					<a href="javascript:void(0);" onclick="$('#dup-step3-errs-create').toggle(400)">Step1: Deploy Results (<span data-bind="text: query_errs"></span>)</a><br/>
@@ -110,7 +109,7 @@ VIEW: STEP 3- INPUT -->
 					<a href="javascript:void(0);" onclick="$('#dup-step3-errs-upd').toggle(400)">Step2: Update Results (<span data-bind="text: err_all"></span>)</a>
 				</td>
 				<td data-bind="with: status.step2">
-					<a href="#dup-step2-errs-warn-anchor" onclick="$('#dup-step3-warnlist').toggle(400)">General Warnings (<span data-bind="text: warn_all"></span>)</a>
+					<a href="#dup-step2-errs-warn-anchor" onclick="$('#dup-step3-warnlist').toggle(400)">General Notices (<span data-bind="text: warn_all"></span>)</a>
 				</td>
 			</tr>
 			<tr><td colspan="4"></td></tr>
@@ -118,7 +117,8 @@ VIEW: STEP 3- INPUT -->
 		
 		
 		<div id="dup-step3-errs-create" class="s3-err-msg">
-			<b data-bind="with: status.step1">STEP 1: DEPLOY ERRORS (<span data-bind="text: query_errs"></span>)</b><br/>
+			<div class="dup-step3-err-title">STEP 1 DEPLOY RESULTS</div>
+			<b data-bind="with: status.step1">DEPLOY ERRORS (<span data-bind="text: query_errs"></span>)</b><br/>
 			<div class="info-error">
 				Queries that error during the deploy step are logged to the <a href="installer-log.txt" target="_blank">install-log.txt</a> file  and marked '**ERROR**'. 
 				<br/><br/>  
@@ -130,16 +130,16 @@ VIEW: STEP 3- INPUT -->
 				setting to handle larger payloads. <br/>
 				
 				<b>Unknown collation:</b> The MySQL Version is too old see: 
-				<a href="https://lifeinthegrid.com/duplicator-faq" target="_blank">What is Compatibility mode & 'Unknown collation' errors?</a> 
+				<a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-110-q" target="_blank">What is Compatibility mode & 'Unknown collation' errors?</a> 
 				<br/>
 			</div>
 		</div>
 		
 
 		<div id="dup-step3-errs-upd" class="s3-err-msg">
-		
+			<div class="dup-step3-err-title">STEP 2 UPDATE RESULTS</div>
 			<!-- MYSQL QUERY ERRORS -->
-			<b data-bind="with: status.step2">STEP2: UPDATE ERRORS (<span data-bind="text: errsql_sum"></span>) </b><br/>
+			<b data-bind="with: status.step2">UPDATE ERRORS (<span data-bind="text: errsql_sum"></span>) </b><br/>
 			<div class="info-error">
 				Update errors that show here are queries that could not be performed because the database server being used has issues running it.  Please validate the query, if
 				it looks to be of concern please try to run the query manually.  In many cases if your site performs well without any issues you can ignore the error.			
@@ -184,17 +184,17 @@ VIEW: STEP 3- INPUT -->
 		<!-- WARNINGS-->
 		<div id="dup-step3-warnlist" class="s3-err-msg">
 			<a href="#" id="dup-step2-errs-warn-anchor"></a>
-			<b>GENERAL WARNINGS</b><br/>
+			<b>GENERAL NOTICES</b><br/>
 			<div class="info">
-				The following is a list of warnings that may need to be fixed in order to finalize your setup.  For more details about
-				warnings see the <a href="http://codex.wordpress.org/" target="_blank">wordpress codex.</a>.
+				The following is a list of notices that may need to be fixed in order to finalize your setup.  These values should only be investigated if your running into
+				issues with your site. For more details see the <a href="https://codex.wordpress.org/Editing_wp-config.php" target="_blank">WordPress Codex</a>.
 			</div>
 			<div class="content">
 				<div data-bind="foreach: status.step2.warnlist">
 					 <div data-bind="text: $data"></div>
 				</div>
 				<div data-bind="visible: status.step2.warnlist.length == 0">
-					No warnings found
+					No notices found
 				</div>
 			</div>
 		</div><br/>
@@ -205,35 +205,35 @@ VIEW: STEP 3- INPUT -->
 		$num = rand(1,2);  
 		switch ($num) {
 			case 1: 
-				$key = 'free-inst-s3btn1';
+				$key = 'free_inst_s3btn1';
 				$txt = 'Want More Power?';
 				break;
 			case 2: 
-				$key = 'free-inst-s3btn2';
+				$key = 'free_inst_s3btn2';
 				$txt = 'Go Pro Today!';
 				break;	
 			default :
-				$key = 'free-inst-s3btn2';
+				$key = 'free_inst_s3btn2';
 				$txt = 'Go Pro Today!';
 		}
 	?>
 	
 	<div class="s3-gopro-btn">
-		<a style="width:100%" class="s3-final-btns" href="https://snapcreek.com/duplicator/comparison?<?php echo $key;?>" target="_blank">&#10097;&#10097; <?php echo $txt;?></a> 
+		<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=<?php echo $key;?>" target="_blank"> <?php echo $txt;?></a> 
 	</div>
 	<br/><br/>
 		
 	<div class='s3-connect'>
 		<a href="installer.php?help=1#troubleshoot" target="_blank">Troubleshoot</a> | 
-		<a href='http://support.lifeinthegrid.com/knowledgebase.php' target='_blank'>FAQs</a> | 
-		<a href='http://lifeinthegrid.com/labs/duplicator/resources/' target='_blank'>Support</a>
+		<a href='https://snapcreek.com/duplicator/docs/faqs-tech/' target='_blank'>FAQs</a> | 
+		<a href='https://snapcreek.com/ticket' target='_blank'>Support</a>
 	</div><br/>
 </form>
 
 <script type="text/javascript">
 	MyViewModel = function() { 
 		this.status = <?php echo urldecode($_POST['json']); ?>;
-		var errorCount =  this.status.step2.query_errs || 0;
+		var errorCount =  this.status.step1.query_errs || 0;
 		(errorCount >= 1 )
 			? $('#dup-step3-install-report-count').css('color', '#BE2323')
 			: $('#dup-step3-install-report-count').css('color', '#197713')

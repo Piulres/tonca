@@ -1,5 +1,4 @@
 <?php
-require_once (DUPLICATOR_PLUGIN_PATH . 'classes/package.php');
 
 global $wpdb;
 
@@ -15,19 +14,23 @@ if (isset($_POST['action']))
     }
 }
 
-DUP_Util::InitSnapshotDirectory();
+DUP_Util::initSnapshotDirectory();
 
-$Package = DUP_Package::GetActive();
+$Package = DUP_Package::getActive();
 $dup_tests = array();
-$dup_tests = DUP_Server::GetRequirements();
-$default_name = DUP_Package::GetDefaultName();
+$dup_tests = DUP_Server::getRequirements();
+$default_name = DUP_Package::getDefaultName();
 
-$view_state = DUP_UI::GetViewStateArray();
-$ui_css_storage = (isset($view_state['dup-pack-storage-panel']) && $view_state['dup-pack-storage-panel']) ? 'display:block' : 'display:none';
-$ui_css_archive = (isset($view_state['dup-pack-archive-panel']) && $view_state['dup-pack-archive-panel']) ? 'display:block' : 'display:none';
-$ui_css_installer = (isset($view_state['dup-pack-installer-panel']) && $view_state['dup-pack-installer-panel']) ? 'display:block' : 'display:none';
-$dup_intaller_files = implode(", ", array_keys(DUP_Server::GetInstallerFiles()));
-$dbbuild_mode = (DUP_Settings::Get('package_mysqldump') && DUP_Database::GetMySqlDumpPath()) ? 'mysqldump' : 'PHP';
+//View State
+$ctrl_ui = new DUP_CTRL_UI();
+$ctrl_ui->SetResponseType('PHP');
+$data = $ctrl_ui->GetViewStateList();
+
+$ui_css_storage = (isset($data->Payload['dup-pack-storage-panel']) && $data->Payload['dup-pack-storage-panel']) ? 'display:block' : 'display:none';
+$ui_css_archive = (isset($data->Payload['dup-pack-archive-panel']) && $data->Payload['dup-pack-archive-panel']) ? 'display:block' : 'display:none';
+$ui_css_installer = (isset($data->Payload['dup-pack-installer-panel']) && $data->Payload['dup-pack-installer-panel']) ? 'display:block' : 'display:none';
+$dup_intaller_files = implode(", ", array_keys(DUP_Server::getInstallerFiles()));
+$dbbuild_mode = (DUP_Settings::Get('package_mysqldump') && DUP_DB::getMySqlDumpPath()) ? 'mysqldump' : 'PHP';
 
 ?>
 
@@ -52,22 +55,22 @@ TOOL BAR: STEPS -->
         <td style="white-space: nowrap">
             <div id="dup-wiz">
                 <div id="dup-wiz-steps">
-                    <div class="active-step"><a><span>1</span> <?php _e('Setup', 'duplicator'); ?></a></div>
-                    <div><a><span>2</span> <?php _e('Scan', 'duplicator'); ?> </a></div>
-                    <div><a><span>3</span> <?php _e('Build', 'duplicator'); ?> </a></div>
+                    <div class="active-step"><a>1-<?php _e('Setup', 'duplicator'); ?></a></div>
+                    <div><a>2-<?php _e('Scan', 'duplicator'); ?> </a></div>
+                    <div><a>3-<?php _e('Build', 'duplicator'); ?> </a></div>
                 </div>
                 <div id="dup-wiz-title">
 					<?php _e('Step 1: Package Setup', 'duplicator'); ?>
                 </div> 
             </div>	
         </td>
-        <td class="dup-toolbar-btns">
-            <a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("All Packages", 'duplicator'); ?></a> &nbsp;
-            <span> <?php _e("Create New", 'duplicator'); ?></span>
+        <td>
+            <a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("All Packages", 'duplicator'); ?></a>
+			<span> <?php _e("Create New", 'duplicator'); ?></span>
         </td>
     </tr>
 </table>	
-<hr style="margin-bottom:8px">
+<hr class="dup-toolbar-line">
 
 <?php if (!empty($action_response)) : ?>
     <div id="message" class="updated below-h2"><p><?php echo $action_response; ?></p></div>
@@ -132,22 +135,23 @@ SYSTEM REQUIREMENTS -->
         <!-- PERMISSIONS -->
         <div class='dup-sys-req'>
             <div class='dup-sys-title'>
-                <a><?php _e('Permissions', 'duplicator'); ?></a> <div><?php echo $dup_tests['IO']['ALL']; ?></div>
+                <a><?php _e('Required Paths', 'duplicator'); ?></a> <div><?php echo $dup_tests['IO']['ALL']; ?></div>
             </div>
             <div class="dup-sys-info dup-info-box">
-                <b><?php _e("Required Paths", 'duplicator'); ?></b>
-                <div style="padding:3px 0px 0px 15px">
-                    <?php
-                    printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['WPROOT'], DUPLICATOR_WPROOTPATH);
-                    printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['SSDIR'], DUPLICATOR_SSDIR_PATH);
-                    printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['SSTMP'], DUPLICATOR_SSDIR_PATH_TMP);
-                    //printf("<b>%s:</b> [%s] <br/>", __('PHP Script Owner', 'duplicator'), DUP_Util::GetCurrentUser());	
-                    //printf("<b>%s:</b> [%s] <br/>", __('PHP Process Owner', 'duplicator'), DUP_Util::GetProcessOwner());	
-                    ?>
-                </div>
-                <small>
-					<?php _e("Permissions can be difficult to resolve on some systems. If the plugin can not read the above paths here are a few things to try. 1) Set the above paths to have permissions of 755 for directories and 644 for files. You can temporarily try 777 however, be sure you don’t leave them this way. 2) Check the owner/group settings for both files and directories. The PHP script owner and the process owner are different. The script owner owns the PHP script but the process owner is the user the script is running as, thus determining its capabilities/privileges in the file system. For more details contact your host or server administrator or visit the 'Help' menu under Duplicator for additional online resources.", 'duplicator'); ?>
-                </small>					
+				<?php
+				printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['SSDIR'], DUPLICATOR_SSDIR_PATH);
+				printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['SSTMP'], DUPLICATOR_SSDIR_PATH_TMP);
+				?>
+				<br/>
+				<div style="font-size:11px">
+					<?php 
+						_e("If Duplicator does not have enough permissions then you will need to manually create the paths above. &nbsp; ", 'duplicator'); 
+						if ($dup_tests['IO']['WPROOT'] == 'Fail')
+						{
+							echo sprintf( __('The root WordPress path [%s] is currently not writable by PHP.', 'duplicator'), 	DUPLICATOR_WPROOTPATH);
+						}
+					?>
+				</div>
             </div>
         </div>
 
@@ -160,7 +164,7 @@ SYSTEM REQUIREMENTS -->
             <div class="dup-sys-info dup-info-box">
                 <table class="dup-sys-info-results">
                     <tr>
-                        <td><?php printf("%s [%s]", __("MySQL Version", 'duplicator'), $wpdb->db_version()); ?></td>
+                        <td><?php printf("%s [%s]", __("MySQL Version", 'duplicator'), DUP_DB::getVersion()); ?></td>
                         <td><?php echo $dup_tests['SRV']['MYSQL_VER'] ?></td>
                     </tr>
                     <tr>
@@ -170,7 +174,7 @@ SYSTEM REQUIREMENTS -->
                 </table>
                 <small>
                     <?php
-                    _e("MySQL version 5.0+ or better is required and the PHP MySQLi extension (note the trailing 'i') is also required.  Contact your server administrator and request that mysqli extension and MySQL Server 5.0+ be installed. Please note in future versions support for other databases and extensions will be added.", 'duplicator');
+                    _e("MySQL version 5.0+ or better is required and the PHP MySQLi extension (note the trailing 'i') is also required.  Contact your server administrator and request that mysqli extension and MySQL Server 5.0+ be installed.", 'duplicator');
                     echo "&nbsp;<i><a href='http://php.net/manual/en/mysqli.installation.php' target='_blank'>[" . __('more info', 'duplicator') . "]</a></i>";
                     ?>										
                 </small>

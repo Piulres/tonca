@@ -1,6 +1,7 @@
 <?php
+require_once(DUPLICATOR_PLUGIN_PATH . '/classes/ui/class.ui.dialog.php');
 
-DUP_Util::CheckPermissions('manage_options');
+DUP_Util::hasCapability('manage_options');
 
 global $wpdb;
 
@@ -23,7 +24,7 @@ $current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'logging';
     switch ($current_tab) {
         case 'logging': include('logging.php');
             break;
-		case 'diagnostics': include('diagnostics.php');
+		case 'diagnostics': include('diagnostics/main.php');
             break;
         case 'cleanup': include('cleanup.php');
             break;

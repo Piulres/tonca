@@ -8,6 +8,7 @@ Duplicator.UI		= new Object();
 Duplicator.Pack		= new Object();
 Duplicator.Settings = new Object();
 Duplicator.Tools	= new Object();
+Duplicator.Debug	= new Object();
 
 //GLOBAL CONSTANTS
 Duplicator.DEBUG_AJAX_RESPONSE = false;
@@ -59,14 +60,14 @@ Duplicator.OpenLogWindow = function(log)
 *  ============================================================================	*/
 
 /*	Saves the state of a UI element */ 
-Duplicator.UI.SaveViewStateByPost = function (key, value) 
+Duplicator.UI.SaveViewState = function (key, value) 
 {
 	if (key != undefined && value != undefined ) {
 		jQuery.ajax({
 			type: "POST",
 			url: ajaxurl,
 			dataType: "json",
-			data: {action : 'DUP_UI_SaveViewStateByPost', key: key, value: value},
+			data: {action : 'DUP_CTRL_UI_SaveViewState', key: key, value: value},
 			success: function(data) {},
 			error: function(data) {}
 		});	
@@ -98,7 +99,7 @@ Duplicator.UI.ToggleMetaBox = function()
 	var key   = $panel.attr('id');
 	var value = $panel.is(":visible") ? 0 : 1;
 	$panel.toggle();
-	Duplicator.UI.SaveViewStateByPost(key, value);
+	Duplicator.UI.SaveViewState(key, value);
 	(value) 
 		? $arrow.removeClass().addClass('fa fa-caret-up') 
 		: $arrow.removeClass().addClass('fa fa-caret-down');

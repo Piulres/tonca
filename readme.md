@@ -3,7 +3,7 @@ Tonca is a system using many technologies and ready to development.
 
 ----
 ### Version
-1.1
+2
 
 ----
 ### Requirement

@@ -1,6 +1,6 @@
 <?php
 /*
-  Copyright 2011-16  lifeinthegrid.com
+  Copyright 2011-16  snapcreek.com
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as
@@ -42,10 +42,6 @@ if (file_exists('dtoken.php')) {
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
             header('Content-Length: ' . filesize($filename));
-            //FIXME: We should consider removing all error supression like this
-            //as it makes troubleshooting a wild goose chase for times that the
-            //script failes on such a line.  The same can and should be accomplished
-            //at the server level by turning off displaying errors in PHP.
             @ob_clean();
             @flush();
             if (@readfile($filename) == false) {
@@ -87,9 +83,6 @@ if (file_exists('dtoken.php')) {
 /* ==============================================================================================
 ADVANCED FEATURES - Allows admins to perform aditional logic on the import.
 
-$GLOBALS['TABLES_SKIP_COLS']
-	Add Known column names of tables you don't want the search and replace logic to run on.
-
 $GLOBALS['REPLACE_LIST']
 	Add additional search and replace items to step 2 for the serialize engine.  
 	Place directly below $GLOBALS['REPLACE_LIST'] variable below your items
@@ -98,6 +91,14 @@ $GLOBALS['REPLACE_LIST']
 		array_push($GLOBALS['REPLACE_LIST'], array('search' => 'ftps://oldurl/',   'replace' => 'ftps://newurl/'));
   ================================================================================================= */
 
+//COMPARE VALUES
+$GLOBALS['FW_CREATED']		= '%fwrite_created%';
+$GLOBALS['FW_VERSION_DUP']	= '%fwrite_version_dup%';
+$GLOBALS['FW_VERSION_WP']	= '%fwrite_version_wp%';
+$GLOBALS['FW_VERSION_DB']	= '%fwrite_version_db%';
+$GLOBALS['FW_VERSION_PHP']	= '%fwrite_version_php%';
+$GLOBALS['FW_VERSION_OS']	= '%fwrite_version_os%';
+//GENERAL
 $GLOBALS['FW_TABLEPREFIX'] = '%fwrite_wp_tableprefix%';
 $GLOBALS['FW_URL_OLD'] = '%fwrite_url_old%';
 $GLOBALS['FW_URL_NEW'] = '%fwrite_url_new%';
@@ -126,7 +127,7 @@ $GLOBALS['DB_MAX_PACKETS'] = 268435456;
 ini_set('mysql.connect_timeout', '5000');
 
 //PHP SETUP: all time in seconds
-ini_set('memory_limit', '5000M');
+ini_set('memory_limit', '2048M');
 ini_set("max_execution_time", '5000');
 ini_set("max_input_time", '5000');
 ini_set('default_socket_timeout', '5000');
@@ -134,9 +135,9 @@ ini_set('default_socket_timeout', '5000');
 
 $GLOBALS['DBCHARSET_DEFAULT'] = 'utf8';
 $GLOBALS['DBCOLLATE_DEFAULT'] = 'utf8_general_ci';
+$GLOBALS['FAQ_URL'] = 'https://snapcreek.com/duplicator/docs/faqs-tech';
 
 //UPDATE TABLE SETTINGS
-$GLOBALS['TABLES_SKIP_COLS'] = array('');
 $GLOBALS['REPLACE_LIST'] = array();
 
 
@@ -162,8 +163,8 @@ $_POST['dbcharset'] = isset($_POST['dbcharset'])  ? trim($_POST['dbcharset']) : 
 $_POST['dbcollate'] = isset($_POST['dbcollate'])  ? trim($_POST['dbcollate']) : $GLOBALS['DBCOLLATE_DEFAULT'];
 
 //GLOBALS
-$GLOBALS["SQL_FILE_NAME"] = "installer-data.sql";
-$GLOBALS["LOG_FILE_NAME"] = "installer-log.txt";
+$GLOBALS['SQL_FILE_NAME'] = "installer-data.sql";
+$GLOBALS['LOG_FILE_NAME'] = "installer-log.txt";
 $GLOBALS['SEPERATOR1'] = str_repeat("********", 10);
 $GLOBALS['LOGGING'] = isset($_POST['logging']) ? $_POST['logging'] : 1;
 $GLOBALS['CURRENT_ROOT_PATH'] = dirname(__FILE__);
@@ -171,9 +172,8 @@ $GLOBALS['CHOWN_ROOT_PATH'] = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 0755);
 $GLOBALS['CHOWN_LOG_PATH'] = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}/{$GLOBALS['LOG_FILE_NAME']}", 0644);
 $GLOBALS['URL_SSL'] = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
 $GLOBALS['URL_PATH'] = ($GLOBALS['URL_SSL']) ? "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}" : "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
-
-
-
+$GLOBALS['PHP_MEMORY_LIMIT'] = ini_get('memory_limit') === false ? 'n/a' : ini_get('memory_limit');
+$GLOBALS['PHP_SUHOSIN_ON']	 = extension_loaded('suhosin') ? 'enabled' : 'disabled';
 
 //Restart log if user starts from step 1
 if ($_POST['action_step'] == 1) {
@@ -183,13 +183,18 @@ if ($_POST['action_step'] == 1) {
 }
 ?>
 	
-@@CLASS.LOGGING.PHP@@
-
 @@CLASS.UTILS.PHP@@
 
-@@CLASS.CONFIG.PHP@@
+@@CLASS.DB.PHP@@
 
-@@CLASS.SERIALIZER.PHP@@
+@@CLASS.LOGGING.PHP@@
+
+@@CLASS.ENGINE.PHP@@
+
+@@CLASS.CONF.WP.PHP@@
+
+@@CLASS.CONF.SRV.PHP@@
+
 
 <?php
 if (isset($_POST['action_ajax'])) {
@@ -227,17 +232,17 @@ if (isset($_POST['action_ajax'])) {
 				<div style="font-size:22px; padding:5px 0px 0px 0px">
 					<!-- !!DO NOT CHANGE/EDIT OR REMOVE PRODUCT NAME!!
 					If your interested in Private Label Rights please contact us at the URL below to discuss
-					customizations to product labeling: http://lifeinthegrid.com	-->
+					customizations to product labeling: http://snapcreek.com	-->
 					&nbsp; Duplicator - Installer
 				</div>
 			</td>
 			<td style="white-space:nowrap; text-align:right">
 				<select id="dup-hlp-lnk">
-					<option value="null"> - Online Resources -</option>
-					<option value="http://lifeinthegrid.com/duplicator-docs">&raquo; Knowledge Base</option>
-					<option value="http://lifeinthegrid.com/duplicator-guide">&raquo; User Guide</option>
-					<option value="http://lifeinthegrid.com/duplicator-faq">&raquo; Common FAQs</option>
-					<option value="http://lifeinthegrid.com/duplicator-hosts">&raquo; Approved Hosts</option>
+					<option value="null"> - Resources -</option>
+					<option value="https://snapcreek.com/duplicator/docs/">&raquo; Knowledge Base</option>
+					<option value="https://snapcreek.com/duplicator/docs/guide/">&raquo; User Guide</option>
+					<option value="https://snapcreek.com/duplicator/docs/faqs-tech/">&raquo; Common FAQs</option>
+					<option value="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-040-q">&raquo; Approved Hosts</option>
 				</select>
 			</td>
 		</tr>
@@ -272,7 +277,7 @@ if (isset($_POST['action_ajax'])) {
 			<td style="white-space:nowrap">
 
 				<i style='font-size:11px; color:#999'>
-					version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?>&nbsp;&nbsp;<a href="installer.php?help=1" target="_blank">[Help]</a>
+					version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?> &raquo; <a href="?help=1" target="_blank">help</a>
 				</i> &nbsp;
 				
 			</td>

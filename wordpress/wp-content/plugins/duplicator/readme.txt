@@ -1,43 +1,64 @@
 === Duplicator ===
 Contributors: corylamleorg, bobriley
 Donate link: www.lifeinthegrid.com/partner
-Tags: backup, restore, move, migrate, localhost, synchronize, duplicate, clone, automate, niche  
+Tags: backup, restore, move, migrate, localhost, synchronize, duplicate, clone, automate, niche site 
 Requires at least: 4.0
-Tested up to: 4.5.2
-Stable tag: 1.1.10
+Tested up to: 4.7
+Stable tag: 1.1.34
 License: GPLv2
 
 Duplicate, clone, backup, move and transfer an entire site from one location to another. 
 
 == Description ==
 
-> The Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.    The Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process. For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/).  
+> Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.  Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process.
+
+For complete details visit [snapcreek.com](http://snapcreek.com/).  
 
 = Quick Video Demo =
 http://www.youtube.com/watch?v=yZ7pHmR9JC8
 
-= Admins/Developers/Designers =
- This tool is great to move or backup Wordpress sites and for pulling production sites down to your local machine for testing and validation. It also works good for developing locally and then pushing up to a production server for site releases/updates or just demoing a site.
+= Overview =
+Duplicator enables you to:
+
+* Move a site between domains or hosts
+* Pull down a live site to localhost for development
+* Manually back up a site
+* Duplicate a live site to a staging area or vice versa
+* Bundle up an entire WordPress site for easy reuse or distribution
+
+= Move and Backup =
+Duplicator creates a package that bundles all the site's plugins, themes, content, database and WordPress core files into a simple zip file called a package. This package can then be used to easily restore a site to any location you wish.  Move on the same server, across servers and pretty much any location a WordPress site can be hosted.
+
+= Improve Your Workflow =
+Duplicator can also eliminate repeat site configuration work if you have a favorite theme, set of plugins or content you install on all sites. Instead of manually configuring these over and over, with Duplicator you just need to configure a single site which you then bundle up into a package. From that point forward, you can install the package in different locations to instantly create pre-configured sites!  Web designers/developers can even create a package collection of the various starter sites they regularly install to save them setup time.
 
 = Duplicator Pro =
-Take Duplicator to the next level with the [premium version](http://snapcreek.com/duplicator?wpo-premium) of the plugin.  With professional features like, scheduling, cloud storage to Dropbox, Google Drive, FTP and a long list of other enhancements.  For a full breakdown of the features found in the professional version checkout the [comparison page](https://snapcreek.com/duplicator/comparison?wpo-compare) .
+Duplicator Pro takes Duplicator to the next level with features you'll really appreciate, such as:
+
+* Scheduled backups
+* Cloud Storage to Dropbox, Google Drive, Amazon S3 and FTP
+* MultiThreaded to support larger web sites &amp; databases
+* Multisite (MU) support
+* Database creation *in the installer*
+* Connect to cPanel directly from installer
+* Email notifications
+* Professional support
+* ... and much more!
+
+Check out [Duplicator Pro](https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=wpo_premium&utm_campaign=duplicator_pro) today!
 
 = Please Note =
 The underlying logic to backup WordPress, move WordPress and transfer WordPress are very complex. It's impossible to know how each system is setup; this is why your feedback is important to us.  Thanks for helping us to make WordPress the best blogging platform in the world.
 
 = Disclaimer =
- This plugin does require some technical knowledge.  If you plan to move WordPress or backup WordPress please use it at your own risk and do not forget to back up your files and databases beforehand.  If you're new to WordPress or have a very limited technical background you may consider seeking out professional help your first time using the plugin.  If you need to move or backup WordPress and would like additional help please visit the Duplicator [resources page](http://lifeinthegrid.com/labs/duplicator/) .
-
+This plugin does require some technical knowledge.  If you plan to move WordPress or backup WordPress please use it at your own risk and do not forget to back up your files and databases beforehand.  If you're new to WordPress or have a very limited technical background you may consider seeking out professional help your first time using the plugin.  If you need to move or backup WordPress and would like additional help please visit the Duplicator [resources section](https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-030-q) .
 
 
 = Active Contributors =
 <li>[Paal Joachim Romdahl](http://www.easywebdesigntutorials.com) (Training)</li>
 <li>[Hans-M. Herbrand](http://www.web266.de) (German) </li>
 <li>[Nicolas Richer](http://nicolasricher.fr) (French)</li>
-
-= Donate =
-Enjoy using *Duplicator*? Please consider [making a donation](http://lifeinthegrid.com/partner/) to support the project's continued development.
-
 
 
 
@@ -52,29 +73,21 @@ The Duplicator requires php 5.3 or higher.
 
 == Frequently Asked Questions ==
 
-= I'm having issues getting the plugin to work what should I do? =
+= Does Duplicator have a knowledge base or FAQ? =
 
-See the [FAQs](http://lifeinthegrid.com/duplicator-faq) page for a detailed rundown of common issues
+Yes. Please see [all documents](https://snapcreek.com/duplicator/docs/) at snapcreek.com.
 
 = Are there any videos I can watch? =
 
-Yes.  Please see the [tutorial section](http://lifeinthegrid.com/duplicator-tutorials] on the user guide for videos.
-
-
-= Where can I get more information and support for this plugin? =
-
-Visit the [Duplicator Page](http://lifeinthegrid.com/duplicator) at lifeinthegrid.com
-
-
-= Can I test this in a non-production environment? =
-
-Yes. Put WordPress on [your computer](http://lifeinthegrid.com/xampp) by watching the video below.
-
-http://www.youtube.com/watch?v=-hF7FbTQIkk
+Yes.  Please see the [video section](https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-070-q) on the FAQ.
 
 = Is this plugin compatible with WordPress Multi-Site (MU)? =
 
-No.  Hopefully in future versions we will support MU
+No.  However the Pro version does have minor support for MU
+
+= Where can I get more help and support for this plugin? =
+
+Visit the [Duplicator support](https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-030-q) section at snapcreek.com
 
 
 == Screenshots ==
@@ -89,7 +102,7 @@ No.  Hopefully in future versions we will support MU
 == Changelog ==
 
 Please see the following url:
-http://lifeinthegrid.com/duplicator-log
+https://snapcreek.com/duplicator/docs/changelog?lite
 
 
 
@@ -97,16 +110,3 @@ http://lifeinthegrid.com/duplicator-log
 == Upgrade Notice ==
 
 Please use our ticketing system when submitting your logs.  Please do not post to the forums.
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -16,6 +16,7 @@
 class URE_Ajax_Processor {
 
     protected $lib = null;
+    protected $action = null;
     
 
     public function __construct($lib) {
@@ -26,6 +27,18 @@ class URE_Ajax_Processor {
     // end of __construct()
     
     
+    protected function get_action() {
+        $action = filter_input(INPUT_POST, 'sub_action', FILTER_SANITIZE_STRING);
+        if (empty($action)) {
+            $action = filter_input(INPUT_GET, 'sub_action', FILTER_SANITIZE_STRING);
+        }
+        
+        $this->action = $action;
+        
+        return $action;
+    }
+    
+    
     protected function ajax_check_permissions() {
         
         if (!wp_verify_nonce($_REQUEST['wp_nonce'], 'user-role-editor')) {
@@ -33,7 +46,7 @@ class URE_Ajax_Processor {
             die;
         }
         
-        $key_capability = $this->lib->get_key_capability();
+        $key_capability = URE_Own_Capabilities::get_key_capability();
         if (!current_user_can($key_capability)) {
             echo json_encode(array('result'=>'error', 'message'=>'URE: Insufficient permissions'));
             die;
@@ -41,6 +54,16 @@ class URE_Ajax_Processor {
         
     }
     // end of ajax_check_permissions()
+    
+    
+    protected function get_caps_to_remove() {
+    
+        $html = URE_Role_View::caps_to_remove_html();
+        $answer = array('result'=>'success', 'html'=>$html, 'message'=>'success');
+        
+        return $answer;
+    }
+    // end of get_caps_to_remove()
     
                 
     protected function get_users_without_role() {
@@ -74,13 +97,16 @@ class URE_Ajax_Processor {
     // end of get_users_without_role()
     
     
-    protected function _dispatch($action) {
-        switch ($action) {
+    protected function _dispatch() {
+        switch ($this->action) {
+            case 'get_caps_to_remove':
+                $answer = $this->get_caps_to_remove();
+                break;
             case 'get_users_without_role':
                 $answer = $this->get_users_without_role();
                 break;
             default:
-                $answer = array('result' => 'error', 'message' => 'unknown action "' . $action . '"');
+                $answer = array('result' => 'error', 'message' => 'unknown action "' . $this->action . '"');
         }
         
         return $answer;
@@ -93,14 +119,9 @@ class URE_Ajax_Processor {
      */    
     public function dispatch() {
         
-        $this->ajax_check_permissions();
-        
-        $action = filter_input(INPUT_POST, 'sub_action', FILTER_SANITIZE_STRING);
-        if (empty($action)) {
-            $action = filter_input(INPUT_GET, 'sub_action', FILTER_SANITIZE_STRING);
-        }
-
-        $answer = $this->_dispatch($action);
+        $this->get_action();
+        $this->ajax_check_permissions();                
+        $answer = $this->_dispatch();
         
         $json_answer = json_encode($answer);
         echo $json_answer;

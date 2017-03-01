@@ -1,8 +1,7 @@
 <?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
@@ -11,7 +10,7 @@
 <!-- =========================================
 HELP FORM -->
 <div id="dup-main-help">
-	<div style="text-align:center">For in-depth help please see the <a href="http://lifeinthegrid.com/duplicator-docs" target="_blank">online resources</a></div>
+	<div style="text-align:center">For in-depth help please see the <a href="https://snapcreek.com/duplicator/docs/" target="_blank">online resources</a></div>
 
 	<h3>Step 1 - Deploy</h3>
 	<div id="dup-help-step1" class="dup-help-page">
@@ -34,6 +33,17 @@ HELP FORM -->
 			<b>Password:</b><br/>
 			The password of the MySQL database server user.
 			<br/><br/>
+			
+			<b>Test Connection:</b><br/>
+			The test connection button will help validate if the connection parameters are correct for this server.  There are three separate validation parameters: 
+			<ul>
+				<li><b>Host:</b> Returns a status to indicate if the server host name is a valid host name <br/><br/></li>
+				<li><b>Database:</b> Returns a status to indicate if the database name is a valid <br/><br/></li>
+				<li><b>Version:</b> Shows the difference in database engine version numbers. If the package was created on a newer database version than where its trying to 
+				be installed then you can run into issues.  Its best to make sure the server where the installer is running has the same or higher version number than 
+				where it was built.</li>
+			</ul>
+			<br/>			
 
 			<b>Name:</b><br/>
 			The name of the database to which this installation will connect and install the new tables onto.
@@ -58,6 +68,11 @@ HELP FORM -->
 			<legend><b>Advanced Options</b></legend>
 			<b>Manual Package Extraction:</b><br/>
 			This allows you to manually extract the zip archive on your own. This can be useful if your system does not have the ZipArchive support enabled.
+			<br/><br/>	
+			
+			<b>File Timestamp:</b><br/>
+			Choose 'Current' to set each file and directory to the current date-time on the server where it is being extracted.  Choose 'Original' to retain the file date-time 
+			in the archive file. This option will not be applied if the 'Manual package extraction' option is checked.
 			<br/><br/>		
 
 			<b>Enforce SSL on Admin:</b><br/>
@@ -79,6 +94,46 @@ HELP FORM -->
 			<b>Fix non-breaking space characters:</b><br/>
 			The process will remove utf8 characters represented as 'xC2' 'xA0' and replace with a uniform space.  Use this option if you find strange question marks in you posts
 			<br/><br/>	
+			
+			<div id="help-mysql-mode">
+				<b>Mysql Mode:</b><br/>
+				The sql_mode option controls additional options you can pass to the MySQL server during the	database import process.  This option is only set <i>per session</i> 
+				(during the Duplicator step 1 install process) and the modes here will return to their original state after step one runs.  The sql_mode options will vary 
+				based on each version of mysql.  Below is a list list of links to the most recent MySQL versions.<br/>
+				
+				<ul>
+					<li><a href="http://dev.mysql.com/doc/refman/5.5/en/sql-mode.html" target="_blank">MySQL Server 5.5 sql_mode options</a></li>
+					<li><a href="http://dev.mysql.com/doc/refman/5.6/en/sql-mode.html" target="_blank">MySQL Server 5.6 sql_mode options</a></li>
+					<li><a href="http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html" target="_blank">MySQL Server 5.7 sql_mode options</a></li>
+				</ul>
+				
+				This option creates a SET SESSION query such as <i>SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE'</i> and passes it to the MySQL server before any tables
+				or data are created.	The following options are available:
+				<br/>
+				<ul>
+					<li>
+						<b>Default:</b> This option will not do anything and uses the default setting specified by the my.ini sql_mode value or the server's default sql_mode setting. 
+						The installer-log.txt SQL_MODE value will show as NOT_SET if the my.ini sql_mode is not present or is set to empty.
+						<br/><br/>
+					</li>
+					<li>
+						<b>Disable:</b> This sets the sql_mode to an empty string which results in <i>SET SESSION sql_mode = ''</i>. 
+						The installer-log.txt SQL_MODE value will show as NOT_SET<br/><br/>
+					</li>
+					<li>
+						<b>Custom:</b> This setting allows you to pass in a custom set of sql_mode options such as <i>SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE'</i>.
+						In the custom field input box enter in the sql_mode optionsthat you need for
+						your particular server setup. 
+						<br/><br/>
+						Enter the sql mode as comma-separated values with no spaces, and <i>do not</i> include the 'SET SESSION' instruction. Be sure to pay attention to the MySQL server version and ensure it supports the specified options.
+						The installer-log.txt file will record any errors that may occur while using this advanced option.
+					</li>
+				</ul>	
+
+				Please note that if the SQL_MODE in the installer-log.txt is not showing correctly that you may need to check your database users privileges.  Also be sure that your MySQL
+				server version supports all the the sql_mode options you're trying to pass. 
+			</div>
+			<br/>
 
 			<b>MySQL Charset &amp; MySQL Collation:</b><br/>
 			When the database is populated from the SQL script it will use this value as part of its connection.  Only change this value if you know what your databases character set should be.
@@ -171,7 +226,7 @@ HELP FORM -->
 			<div style="padding: 0px 10px 10px 10px;">		
 				<b>Common Quick Fix Issues:</b>
 				<ul>
-					<li>Use an <a href='http://lifeinthegrid.com/duplicator-hosts' target='_blank'>approved hosting provider</a></li>
+					<li>Use an <a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-040-q' target='_blank'>approved hosting provider</a></li>
 					<li>Validate directory and file permissions (see below)</li>
 					<li>Validate web server configuration file (see below)</li>
 					<li>Clear your browsers cache</li>
@@ -206,7 +261,7 @@ HELP FORM -->
 		</fieldset>
 	</div>
 
-	<div style="text-align:center">For in-depth help please see the <a href="http://lifeinthegrid.com/duplicator-docs" target="_blank">online resources</a></div>
+	<div style="text-align:center">For in-depth help please see the <a href="https://snapcreek.com/duplicator/docs/" target="_blank">online resources</a></div>
 
 	<br/><br/>
 </div>

@@ -36,6 +36,7 @@
     div.dup-installer-header-2 {font-weight:bold; border-bottom:1px solid #dfdfdf; padding-bottom:2px; width:100%}
     label.chk-labels {display:inline-block; margin-top:1px}
     table.dup-installer-tbl {width:95%; margin-left:20px}
+	div.dup-installer-panel-optional {text-align: center; font-style: italic; font-size: 12px; color:#777}
 	
 	/*TABS*/
 	ul.add-menu-item-tabs li, ul.category-tabs li {padding:3px 30px 5px}
@@ -88,7 +89,7 @@ STORAGE -->
 							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" /> 
 							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" /> 
 							<?php echo sprintf(__('%1$s, %2$s, %3$s, %4$s and other storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'FTP'); ?>
-							<a href="http://snapcreek.com/duplicator/?free-storage" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
+							<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_storage&utm_campaign=duplicator_pro" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
 							<i class="fa fa-lightbulb-o" 
 								data-tooltip-title="<?php _e("Additional Storage:", 'duplicator'); ?>" 
 								data-tooltip="<?php _e('Professional allows you to create a package and then store it at a custom location on this server or to a cloud '
@@ -130,7 +131,7 @@ ARCHIVE -->
                 <!-- FILTERS -->
                 <?php
 					$uploads = wp_upload_dir();
-					$upload_dir = DUP_Util::SafePath($uploads['basedir']);
+					$upload_dir = DUP_Util::safePath($uploads['basedir']);
                 ?>
                 <div class="dup-enable-filters">
                     <input type="checkbox" id="filter-on" name="filter-on" onclick="Duplicator.Pack.ToggleFileFilters()" <?php echo ($Package->Archive->FilterOn) ? "checked='checked'" :""; ?> />	
@@ -147,7 +148,7 @@ ARCHIVE -->
                     <div class='dup-quick-links'>
                         <a href="javascript:void(0)" onclick="Duplicator.Pack.AddExcludePath('<?php echo rtrim(DUPLICATOR_WPROOTPATH, '/'); ?>')">[<?php _e("root path", 'duplicator') ?>]</a>
                         <a href="javascript:void(0)" onclick="Duplicator.Pack.AddExcludePath('<?php echo rtrim($upload_dir, '/'); ?>')">[<?php _e("wp-uploads", 'duplicator') ?>]</a>
-                        <a href="javascript:void(0)" onclick="Duplicator.Pack.AddExcludePath('<?php echo DUP_Util::SafePath(WP_CONTENT_DIR); ?>/cache')">[<?php _e("cache", 'duplicator') ?>]</a>
+                        <a href="javascript:void(0)" onclick="Duplicator.Pack.AddExcludePath('<?php echo DUP_Util::safePath(WP_CONTENT_DIR); ?>/cache')">[<?php _e("cache", 'duplicator') ?>]</a>
                         <a href="javascript:void(0)" onclick="jQuery('#filter-dirs').val('')"><?php _e("(clear)", 'duplicator') ?></a>
                     </div>
                     <textarea name="filter-dirs" id="filter-dirs" placeholder="/full_path/exclude_path1;/full_path/exclude_path2;"><?php echo str_replace(";", ";\n", esc_textarea($Package->Archive->FilterDirs)) ?></textarea><br/>
@@ -166,7 +167,7 @@ ARCHIVE -->
 					<br/>
 					<span class="dup-pro-text">
 						<?php echo sprintf(__('%1$s are available in', 'duplicator'), 'Individual file filters'); ?>
-						<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank"><?php _e('Professional', 'duplicator');?></a>
+						<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_file_filters&utm_campaign=duplicator_pro" target="_blank"><?php _e('Professional', 'duplicator');?></a>
 						<i class="fa fa-lightbulb-o" 
 							data-tooltip-title="<?php _e("File Filters:", 'duplicator'); ?>" 
 							data-tooltip="<?php _e('File filters allows you to select individual files and add them to an exclusion list that will filter them from the package.', 'duplicator'); ?>">
@@ -288,8 +289,14 @@ INSTALLER -->
         <i class="fa fa-bolt"></i> <?php _e('Installer', 'duplicator') ?>
         <div class="dup-box-arrow"></div>
     </div>			
-
+	
     <div class="dup-box-panel" id="dup-pack-installer-panel" style="<?php echo $ui_css_installer ?>">
+		
+		<div class="dup-installer-panel-optional">
+			<b><?php _e('All values in this section are', 'duplicator'); ?> <u><?php _e('optional', 'duplicator'); ?></u>.</b>
+			<?php _e("The installer can have these fields pre-filled at install time.", 'duplicator'); ?> 
+		</div>	
+		
         <div class="dup-installer-header-1"><i class="fa fa-caret-square-o-right"></i> <?php echo _e('STEP 1 - INPUTS', 'duplicator'); ?></div><br/>
         <table class="dup-installer-tbl">
             <tr>
@@ -350,17 +357,13 @@ INSTALLER -->
                 <td style="width:130px"><?php _e("New URL", 'duplicator') ?></td>
                 <td><input type="text" name="url-new" id="url-new" value="<?php echo $Package->Installer->OptsURLNew ?>" placeholder="http://mynewsite.com" /></td>
             </tr>
-        </table>
-		
-        <div class="dup-tabs-opts-help">
-			<?php _e("The installer can have these fields pre-filled at install time.", 'duplicator'); ?> <b><?php _e('All values are optional.', 'duplicator'); ?></b>
-        </div>	
+        </table>	
 		
 		<div style="padding:10px 0 0 12px;">
 			<span class="dup-pro-text">
 				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/cpanel-48.png" style="width:16px; height:12px" />
-				<?php _e("Connect to a cPanel database with.", 'duplicator'); ?> 
-				<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank"><?php _e('Professional', 'duplicator');?></a>
+				<?php _e("Create the database and user directly from the installer with ", 'duplicator'); ?>
+				<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_cpanel&utm_campaign=duplicator_pro" target="_blank"><?php _e('Professional', 'duplicator');?></a>
 				<i class="fa fa-lightbulb-o" 
 					data-tooltip-title="<?php _e("cPanel Access:", 'duplicator'); ?>" 
 					data-tooltip="<?php _e('If your server supports cPanel API access then you can create new databases and select existing ones with Duplicator Professional at install time.', 'duplicator'); ?>">
@@ -373,12 +376,22 @@ INSTALLER -->
 
 
 <div class="dup-button-footer">
-    <input type="button" value="<?php _e("Reset", 'duplicator') ?>" class="button button-large" <?php echo ($dup_tests['Success']) ? '' :'disabled="disabled"'; ?> onclick="Duplicator.Pack.ResetSettings()" />
-    <input type="submit" value="<?php _e("Next", 'duplicator') ?> &#9658;" class="button button-primary button-large" <?php echo ($dup_tests['Success']) ? '' :'disabled="disabled"'; ?> />
+    <input type="button" value="<?php _e("Reset", 'duplicator') ?>" class="button button-large" <?php echo ($dup_tests['Success']) ? '' :'disabled="disabled"'; ?> onclick="Duplicator.Pack.ConfirmReset()" />
+    <input type="submit" value="<?php _e("Next", 'duplicator') ?> &#9654;" class="button button-primary button-large" <?php echo ($dup_tests['Success']) ? '' :'disabled="disabled"'; ?> />
 </div>
 
 </form>
 
+<!-- ==========================================
+THICK-BOX DIALOGS: -->
+<?php	
+
+	$confirm1 = new DUP_UI_Dialog();
+	$confirm1->title			= __('Reset Package Settings?', 'duplicator');
+	$confirm1->message			= __('This will clear and reset all of the current package settings.  Would you like to continue?', 'duplicator');
+	$confirm1->jscallback		= 'Duplicator.Pack.ResetSettings()';
+	$confirm1->initConfirm();
+?>
 <script>
 jQuery(document).ready(function ($) 
 {
@@ -430,13 +443,14 @@ jQuery(document).ready(function ($)
 		$("#filter-exts").val(text);
 	};
 	
+	Duplicator.Pack.ConfirmReset = function () 
+	{
+		 <?php $confirm1->showConfirm(); ?>
+	}
 
 	Duplicator.Pack.ResetSettings = function () 
 	{
 		var key = 'duplicator_package_active';
-		var result = confirm('<?php _e("This will reset all of the current package settings.  Would you like to continue?", "duplicator"); ?>');
-		if (!result)
-			return;
 
 		jQuery('#dup-form-opts-action').val(key);
 		jQuery('#dup-form-opts').attr('action', '?page=duplicator&tab=new1')
