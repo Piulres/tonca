@@ -59,7 +59,7 @@ define('NONCE_SALT',       'v&Vfgz1G@jxVHk)2/[3FRqc[| SM3mys?4[{Q~HPGGZB_,[MkL/K
  * Você pode ter várias instalações em um único banco de dados se você der para cada um um único
  * prefixo. Somente números, letras e sublinhados!
  */
-$table_prefix  = 'custom_db';
+$table_prefix  = 'custom_db_';
 
 
 /**
